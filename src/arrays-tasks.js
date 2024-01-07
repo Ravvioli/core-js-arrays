@@ -20,8 +20,20 @@
  *    getIntervalArray(0, 100) => [ 0, 1, 2, ..., 100 ]
  *    getIntervalArray(3, 3) => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  // Ensure that start and end are valid numbers
+  if (typeof start !== 'number' || typeof end !== 'number') {
+    throw new Error('Both start and end must be numbers.');
+  }
+
+  // Determine the step based on whether start is less than or equal to end
+  const step = start <= end ? 1 : -1;
+
+  // Use Math.abs to handle cases where start is greater than end
+  const length = Math.abs(end - start) + 1;
+
+  // Use Array.from to create the array based on start, length, and step
+  return Array.from({ length }, (_, index) => start + index * step);
 }
 
 /**
@@ -37,8 +49,14 @@ function getIntervalArray(/* start, end */) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  const maxLength = Math.max(arr1.length, arr2.length);
+
+  // Use Array.from to create an array of indices from 0 to maxLength - 1
+  const indices = Array.from({ length: maxLength }, (_, index) => index);
+
+  // Use map to calculate the sum of corresponding elements
+  return indices.map((index) => (arr1[index] || 0) + (arr2[index] || 0));
 }
 
 /**
@@ -53,8 +71,8 @@ function sumArrays(/* arr1, arr2 */) {
  *    findElement(['Array', 'Number', 'string'], 'Date') => -1
  *    findElement([0, 1, 2, 3, 4, 5], 5) => 5
  */
-function findElement(/* arr, value */) {
-  throw new Error('Not implemented');
+function findElement(arr, value) {
+  return arr.indexOf(value);
 }
 
 /**
@@ -71,8 +89,9 @@ function findElement(/* arr, value */) {
  *    findAllOccurrences([ null, undefined, null ], null) => 2
  *    findAllOccurrences([ true, 0, 1, 'true' ], true) => 1
  */
-function findAllOccurrences(/* arr, item */) {
-  throw new Error('Not implemented');
+function findAllOccurrences(arr, item) {
+  const occurrences = arr.filter((element) => element === item);
+  return occurrences.length;
 }
 
 /**
@@ -87,8 +106,8 @@ function findAllOccurrences(/* arr, item */) {
  *    removeFalsyValues([ 1, 2, 3, 4, 5, 'false' ]) => [ 1, 2, 3, 4, 5, 'false' ]
  *    removeFalsyValues([ false, 0, NaN, '', undefined ]) => [ ]
  */
-function removeFalsyValues(/* arr */) {
-  throw new Error('Not implemented');
+function removeFalsyValues(arr) {
+  return arr.filter((value) => Boolean(value));
 }
 
 /**
@@ -101,8 +120,8 @@ function removeFalsyValues(/* arr */) {
  *    getStringsLength([ '', 'a', 'bc', 'def', 'ghij' ]) => [ 0, 1, 2, 3, 4 ]
  *    getStringsLength([ 'angular', 'react', 'ember' ]) => [ 7, 5, 5 ]
  */
-function getStringsLength(/* arr */) {
-  throw new Error('Not implemented');
+function getStringsLength(arr) {
+  return arr.map((str) => str.length);
 }
 
 /**
@@ -119,8 +138,16 @@ function getStringsLength(/* arr */) {
  *   getAverage([ 1, 10, 100, 1000 ])  => 277,75
  *   getAverage([ 2, 3, 3 ])  => 2,67
  */
-function getAverage(/* arr */) {
-  throw new Error('Not implemented');
+function getAverage(arr) {
+  if (arr.length === 0) {
+    return 0;
+  }
+
+  const sum = arr.reduce((total, num) => total + num, 0);
+  const average = sum / arr.length;
+
+  // Round to two decimal places
+  return parseFloat(average.toFixed(2));
 }
 
 /**
@@ -133,8 +160,14 @@ function getAverage(/* arr */) {
  *    isSameLength(['orange', 'banana', 'cherry']) => true
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
-function isSameLength(/* arr */) {
-  throw new Error('Not implemented');
+function isSameLength(arr) {
+  // An array with 0 or 1 string has the same length by definition.
+  if (arr.length <= 1) {
+    return true;
+  }
+
+  // Check if every string has the same length as the first one.
+  return arr.every((str, index, array) => str.length === array[0].length);
 }
 
 /**
@@ -545,8 +578,19 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  // If the array has less than 2 elements, there's no need to swap.
+  if (arr.length < 2) {
+    return arr.slice();
+  }
+
+  const { length, slice } = arr;
+
+  const middleIndex = Math.floor(length / 2);
+  const head = slice.call(arr, 0, middleIndex);
+  const tail = slice.call(arr, -middleIndex);
+
+  return [...tail, ...slice.call(arr, middleIndex, -middleIndex), ...head];
 }
 
 module.exports = {
